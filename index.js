@@ -1,7 +1,15 @@
 const port = process.env.PORT || 3000
 require('express')().get('*', (req, res) => {
-    res.header('Content-Type', 'text/html')
-    res.send(`
+    if (req.headers['user-agent']?.startsWith('curl/') || req.headers['user-agent']?.toLowerCase()?.startsWith('wget/')) {
+        res.header('Content-Type', 'text/plain')
+        res.send(`
+Greetings ${req.headers['user-agent']}.
+
+Strange game. The only winning move is not to play.
+        `.trim() + '\n')
+    } else {
+        res.header('Content-Type', 'text/html')
+        res.send(`
 <!DOCTYPE html>
 <html lang='en'>
     <head>
@@ -21,12 +29,22 @@ require('express')().get('*', (req, res) => {
                 padding: 10px;
                 box-sizing: border-box;
                 gap: 20px;
+                line-height: 1.6;
+                font-size: 1em;
+                font-family: ui-monospace, 
+                    Menlo, Monaco,
+                    "Cascadia Mono", "Segoe UI Mono", 
+                    "Roboto Mono", 
+                    "Oxygen Mono", 
+                    "Ubuntu Monospace", 
+                    "Source Code Pro",
+                    "Fira Mono", 
+                    "Droid Sans Mono", 
+                    "Courier New", monospace;
             }
             
             p {
-                font-family: monospace;
                 margin: 0;
-                font-size: 1.2em;
                 width: 100%;
                 max-width: 800px;
             }
@@ -37,5 +55,6 @@ require('express')().get('*', (req, res) => {
         <p>Strange game. The only winning move is not to play.</p>
     </body>
 </html>
-    `)
+        `)
+    }
 }).listen(port, () => console.log(`app is up on http://localhost:${port}`))
