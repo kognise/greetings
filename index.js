@@ -52,7 +52,7 @@ Strange game. The only winning move is not to play.
     </head>
     <body>
         <p>Greetings ${req.headers['user-agent']}.</p>
-        <p>Strange game. The only winning move is not to play.</p>
+        <p>Will you please check my <a href='https://github.com/kognise/website/pull/24'>pulse PR</a> to your website</p>
     </body>
 </html>
         `)
